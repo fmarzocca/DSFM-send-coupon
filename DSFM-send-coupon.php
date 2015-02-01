@@ -46,7 +46,7 @@ function coupon_plugin_init() {
 	
 	DSFM_db_install();
 }
-add_action( 'plugins_loaded', 'coupon_plugin_init' );
+register_activation_hook( __FILE__, 'coupon_plugin_init' );
 
 /* Installa la tabella nel DB */
 function DSFM_db_install() {
@@ -72,7 +72,7 @@ function DSFM_db_install() {
 
 	add_option( 'DFSM_db_version', $DSFM_db_version );
 }
-register_activation_hook( __FILE__, 'DSFM_db_install' );
+
 
 
 function fm_requestcoupon ($atts) {
