@@ -99,6 +99,9 @@ add_shortcode ("richiedi-coupon","fm_requestcoupon");
 add_action( 'wpcf7_before_send_mail', 'create_unique_coupon_and_send_it' );
 function create_unique_coupon_and_send_it( $cf7 ) {
 	
+	global $wpdb;
+	global $coupon_table_name;
+	
 	//check if this is the right form
 	if(isset( $_POST['_FM_coupon'] )){
  		
@@ -108,10 +111,10 @@ function create_unique_coupon_and_send_it( $cf7 ) {
 		else
 			$nl="\n";
 
-		//set filenames
-		$master_copy=$uploads['basedir']."/".$_POST['_FM_coupon'];
-		$copy_to_send=$uploads['basedir']."/attachment_".$_POST['_FM_coupon'];
-		
+	//set filenames
+		$master_copy = $uploads['basedir']."/".$_POST['_FM_coupon'];		
+		$copy_to_send = $uploads['basedir']."/".$_POST['_FM_coupon']."_attachment.pdf";
+				
 		//make a copy of the master file and attach it
 		if ( copy( $master_copy, $copy_to_send ) ){
 			$submission = WPCF7_Submission::get_instance();
@@ -122,12 +125,21 @@ function create_unique_coupon_and_send_it( $cf7 ) {
  
 		if ( $submission ) {
    			 $posted_data = $submission->get_posted_data();
-			 $email = $posted_data['email'];
+   			 $nome = $posted_data["your-name"];
+   			 $cognome = $posted_data["your-surname"];
+   			 $email = $posted_data["your-email"];
+   			 $wpdb->insert(
+   			 	$coupon_table_name,
+   			 	array(
+   			 		'time'		=>	current_time('mysql'),
+   			 		'nome'		=>	$nome,
+   			 		'cognome'	=>	$cognome,
+   			 		'email'		=>	$email,
+   			 		'coupon'	=>	$_POST['_FM_coupon'],
+   			 		)
+   			 	);
 			}
-			
-		$mail = $cf7->prop( 'mail' );
-		$mail['subject'] = "Email from: ".$email;
-		$cf7->set_properties( array( 'mail' => $mail ) );
+
 	
 	}
 }

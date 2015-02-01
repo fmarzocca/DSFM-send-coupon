@@ -18,7 +18,9 @@ Version:  1.0
 	border:1px solid #942911;
 	display:inline-block;
 	cursor:pointer;
-        padding: 2px 10px;	
+    padding: 2px 10px;	
+    color:#ffffff;
+	text-decoration:none;
 }
 
 .coupon-button a{
