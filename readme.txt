@@ -25,13 +25,13 @@ Per l'esecuzione di questo plugin è necessario installare e attivare i seguenti
 Aggiungi questo shortcode:
 
 <pre><code>
-[richiedi-coupon cf7=4239 titolo="Richiedi il coupon" filename="coupons/item1.pdf"]
+[richiedi-coupon cf7=4239 testo="Richiedi il coupon" filename="coupons/item1.pdf"]
 </code></pre>
 
 parametri:
 
 * `cf7` è l'id del form di Contact Form 7 per richiedere i dati all'utente;
-* `titolo` è il testo da presentare sul bottone;
+* `testo` è il testo da presentare sul bottone;
 * `filename` contiene la path relativa e il nome del file da allegare. I file dei coupon sono nel folder wp-contents/uploads
 
 __NOTA__

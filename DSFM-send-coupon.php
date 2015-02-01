@@ -40,7 +40,7 @@ $coupon_table_name = $wpdb->prefix . 'coupon_log';
 
 function showAdminMessages()
 {
-  return 'To use <i>DSFM Send Coupon</i> you need to have both <a href="'.admin_url().'plugin-install.php?tab=search&s=easy+fancybox">Easy Fancybox</a> and <a href="'.admin_url().'plugin-install.php?tab=search&s=contact+form+7">Contact Form 7</a> plugins installed and active for this plugin to work.<br/> Plugin would be inactive! After you make sure you have installed and activated all the required plugins you can reactivate it.';
+  return 'To use <i>Send Coupon</i> you need to have both <a href="'.admin_url().'plugin-install.php?tab=search&s=easy+fancybox">Easy Fancybox</a> and <a href="'.admin_url().'plugin-install.php?tab=search&s=contact+form+7">Contact Form 7</a> plugins installed and active for this plugin to work.<br/> Plugin would be inactive! After you make sure you have installed and activated all the required plugins you can reactivate it.';
 }
 
 function coupon_plugin_init() {
@@ -82,13 +82,13 @@ function fm_requestcoupon ($atts) {
 	$atts = shortcode_atts(array(
 			'cf7'			=>	null,
 			'filename'		=>	null,
-			'titolo'		=>	"Richiedi coupon"
+			'testo'		=>	"Richiedi coupon"
 			 ), $atts);
 
 	$contact_form = do_shortcode("[contact-form-7 id=".$atts['cf7']."]");
 	$hf = '<input type="hidden" name="_FM_coupon" value="' . $atts["filename"]. '" /></form>';
 	$contact_form = str_replace("</form>", $hf, $contact_form);
-	$return='<a class="fancybox" href="#coupon" target="_blank" rel="nofollow"><span class="coupon-button">'.$atts["titolo"].'</span></a><div class="fancybox-hidden" style="display: none;"><div id="coupon" class="hentry">'.$contact_form.'</div></div>';
+	$return='<a class="fancybox" href="#coupon" target="_blank" rel="nofollow"><span class="coupon-button">'.$atts["testo"].'</span></a><div class="fancybox-hidden" style="display: none;"><div id="coupon" class="hentry">'.$contact_form.'</div></div>';
 
 	return do_shortcode($return);;
 
