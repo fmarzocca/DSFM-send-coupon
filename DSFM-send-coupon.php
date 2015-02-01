@@ -117,3 +117,11 @@ function create_unique_coupon_and_send_it( $cf7 ) {
 		
 	}
 }
+
+
+/* Add CSS */	
+function DSFM_send_coupon_css(){
+		wp_register_style( 'DSFM_send_coupon_css', plugins_url( 'DSFM-send-coupon.css' , __FILE__ ) );
+		wp_enqueue_style( 'DSFM_send_coupon_css' );
+	} // function
+add_action( 'wp_enqueue_scripts', 'DSFM_send_coupon_css' );
