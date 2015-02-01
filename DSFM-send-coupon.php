@@ -2,7 +2,7 @@
 
 /*
 	Plugin Name: Send Coupon
-	Plugin URI: https://github.com/fmarzocca/display-site-numbers
+	Plugin URI: https://github.com/fmarzocca/DSFM-send-coupon
 	Description: Send coupon file to users
 	Version: 0.f
 	Author: Fabio Marzocca
@@ -30,6 +30,49 @@
 
 defined('ABSPATH') or die("No script kiddies please!");
 
+global $DSFM_db_version;
+$DSFM_db_version = '1.0';
+
+
+function showAdminMessages()
+{
+  return 'To use <i>DSFM Send Coupon</i> you need to have both <a href="plugin-install.php?tab=search&s=easy+fancybox">Easy Fancybox</a> and <a href="plugin-install.php?tab=search&s=contact+form+7">Contact Form 7</a> plugins installed and active for this plugin to work.<br/> Plugin would be inactive! After you make sure you have installed and activated all the required plugins you can reactivate it.';
+}
+
+function coupon_plugin_init() {
+	if ( !(is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) && (is_plugin_active( 'easy-fancybox/easy-fancybox.php' ) ))) {
+		die(showAdminMessages());
+	} 
+	
+	DSFM_db_install();
+}
+register_activation_hook( __FILE__, 'coupon_plugin_init' );
+
+/* Installa la tabella nel DB */
+function DSFM_db_install() {
+	global $wpdb;
+	global $DSFM_db_version;
+
+	$table_name = $wpdb->prefix . 'coupon_log';
+	
+	$charset_collate = $wpdb->get_charset_collate();
+
+	$sql = "CREATE TABLE $table_name (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		nome tinytext NOT NULL,
+		cognome tinytext NOT NULL,
+		coupon tinytext NOT NULL,
+		email tinytext NOT NULL,
+		UNIQUE KEY id (id)
+	) $charset_collate;";
+
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	dbDelta( $sql );
+
+	add_option( 'DFSM_db_version', $DSFM_db_version );
+}
+
 
 
 function fm_requestcoupon ($atts) {
@@ -48,6 +91,7 @@ function fm_requestcoupon ($atts) {
 
 }
 add_shortcode ("richiedi-coupon","fm_requestcoupon");
+
 
 add_action( 'wpcf7_before_send_mail', 'create_unique_coupon_and_send_it' );
 function create_unique_coupon_and_send_it( $cf7 ) {
