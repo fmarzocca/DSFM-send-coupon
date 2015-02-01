@@ -30,8 +30,12 @@
 
 defined('ABSPATH') or die("No script kiddies please!");
 
+global $wpdb;
 global $DSFM_db_version;
 $DSFM_db_version = '1.0';
+
+global $coupon_table_name;
+$coupon_table_name = $wpdb->prefix . 'coupon_log';
 
 
 function showAdminMessages()
@@ -52,12 +56,11 @@ register_activation_hook( __FILE__, 'coupon_plugin_init' );
 function DSFM_db_install() {
 	global $wpdb;
 	global $DSFM_db_version;
-
-	$table_name = $wpdb->prefix . 'coupon_log';
+	global $coupon_table_name;
 	
 	$charset_collate = $wpdb->get_charset_collate();
 
-	$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+	$sql = "CREATE TABLE IF NOT EXISTS $coupon_table_name (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
 		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 		nome tinytext NOT NULL,
