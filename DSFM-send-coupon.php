@@ -36,7 +36,7 @@ $DSFM_db_version = '1.0';
 
 function showAdminMessages()
 {
-  return 'To use <i>DSFM Send Coupon</i> you need to have both <a href="plugin-install.php?tab=search&s=easy+fancybox">Easy Fancybox</a> and <a href="plugin-install.php?tab=search&s=contact+form+7">Contact Form 7</a> plugins installed and active for this plugin to work.<br/> Plugin would be inactive! After you make sure you have installed and activated all the required plugins you can reactivate it.';
+  return 'To use <i>DSFM Send Coupon</i> you need to have both <a href="'.admin_url().'plugin-install.php?tab=search&s=easy+fancybox">Easy Fancybox</a> and <a href="'.admin_url().'plugin-install.php?tab=search&s=contact+form+7">Contact Form 7</a> plugins installed and active for this plugin to work.<br/> Plugin would be inactive! After you make sure you have installed and activated all the required plugins you can reactivate it.';
 }
 
 function coupon_plugin_init() {
