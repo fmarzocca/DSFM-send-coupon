@@ -118,6 +118,17 @@ function create_unique_coupon_and_send_it( $cf7 ) {
 			$submission->add_uploaded_file('coupon', $copy_to_send);
 		}
 		
+		$submission = WPCF7_Submission::get_instance();
+ 
+		if ( $submission ) {
+   			 $posted_data = $submission->get_posted_data();
+			 $email = $posted_data['email'];
+			}
+			
+		$mail = $cf7->prop( 'mail' );
+		$mail['subject'] = "Email from: ".$email;
+		$cf7->set_properties( array( 'mail' => $mail ) );
+	
 	}
 }
 
