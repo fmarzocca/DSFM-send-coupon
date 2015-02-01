@@ -1,0 +1,27 @@
+/*
+Theme Name: Javo directory Child
+Theme URI: http://javothemes.com/directory
+Description: Child theme for the Javo directory
+Author: Javo Themes
+Author URI:     http://javothemes.com
+Template: javo-directory
+Version:  1.0
+*/
+
+/* Add Custom Styles From Here */
+
+.coupon-button {
+	background-color:#b44646;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #942911;
+	display:inline-block;
+	cursor:pointer;
+        padding: 2px 10px;	
+}
+
+.coupon-button a{
+	color:#ffffff;
+	text-decoration:none;
+}
