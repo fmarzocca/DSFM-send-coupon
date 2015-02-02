@@ -84,13 +84,13 @@ function fm_requestcoupon ($atts) {
 			'filename'		=>	null,
 			'testo'		=>	"Richiedi coupon"
 			 ), $atts);
-
+	$randdiv = rand();
 	$contact_form = do_shortcode("[contact-form-7 id=".$atts['cf7']."]");
 	$hf = '<input type="hidden" name="_FM_coupon" value="' . $atts["filename"]. '" /></form>';
 	$contact_form = str_replace("</form>", $hf, $contact_form);
-	$return='<a class="fancybox" href="#coupon" target="_blank" rel="nofollow"><span class="coupon-button">'.$atts["testo"].'</span></a><div class="fancybox-hidden" style="display: none;"><div id="coupon" class="hentry">'.$contact_form.'</div></div>';
+	$return='<a class="fancybox" href="#'.$randdiv.'" target="_blank" rel="nofollow"><span class="coupon-button">'.$atts["testo"].'</span></a><div class="fancybox-hidden" style="display: none;"><div id="'.$randdiv.'" class="hentry">'.$contact_form.'</div></div>';
 
-	return do_shortcode($return);;
+	return $return);
 
 }
 add_shortcode ("richiedi-coupon","fm_requestcoupon");
