@@ -4,7 +4,7 @@ Contributors: fmarzocca
 Tags: coupon, contact form 7, email, attachment
 Requires at least: 4.0.1
 Tested up to: 4.1
-Stable tag: 0.5
+Stable tag: 0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,14 +25,18 @@ Per l'esecuzione di questo plugin è necessario installare e attivare i seguenti
 Aggiungi questo shortcode:
 
 <pre><code>
-[richiedi-coupon cf7=4239 testo="Richiedi il coupon" filename="coupons/item1.pdf"]
+[richiedi-coupon oldprice="100€" offerprice="50€" cf7=4239 filename="coupons/item1.pdf" tasto="Richiedi il Coupon"]
 </code></pre>
 
-parametri:
+parametri accettati:
 
 * `cf7` è l'id del form di Contact Form 7 per richiedere i dati all'utente;
-* `testo` è il testo da presentare sul bottone;
+* `tasto` è il testo da presentare sul bottone. Default = "Stampa il Coupon";
 * `filename` contiene la path relativa e il nome del file da allegare. I file dei coupon sono nel folder wp-contents/uploads
+* `titolo` è il titolo da presentare in testa al riquadro. Default="Scegli l'offerta";
+* `testo` è il testo da visualizzare per l'offerta;
+* `oldprice` vecchio prezzo (barrato);
+* `offerprice` prezzo dell'offerta.  
 
 __NOTA__
 
@@ -56,6 +60,10 @@ Nel contact form, nella sezione MAIL da inviare all'utente, aggiungere il seguen
 
 
 == Changelog ==
+
+= 0.7 =
+* Allo shortcode è ora associato un div completo per l'offerta
+* Abilitata funzionalità multipla su stessa pagina
 
 = 0.5 =
 * First working version

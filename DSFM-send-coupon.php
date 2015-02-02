@@ -4,7 +4,7 @@
 	Plugin Name: Send Coupon
 	Plugin URI: https://github.com/fmarzocca/DSFM-send-coupon
 	Description: Send coupon file to users
-	Version: 0.f
+	Version: 0.7
 	Author: Fabio Marzocca
 	Author URI: http://www.marzocca.net
 	Text Domain:   DSFM-send-coupon
@@ -82,16 +82,30 @@ function fm_requestcoupon ($atts) {
 	$atts = shortcode_atts(array(
 			'cf7'			=>	null,
 			'filename'		=>	null,
-			'testo'		=>	"Richiedi coupon"
+			'tasto'		=>	"Stampa il Coupon",
+			'titolo'		=>	"Scegli l'offerta",
+			'testo'		=>	"Duis autem vel eum iriure dolor in hendrerit in vulputate.",
+			'oldprice'		=>	"0€",
+			'offerprice'		=>	"0€"
+			
 			 ), $atts);
 	$randdiv = rand();
 	$contact_form = do_shortcode("[contact-form-7 id=".$atts['cf7']."]");
 	$hf = '<input type="hidden" name="_FM_coupon" value="' . $atts["filename"]. '" /></form>';
 	$contact_form = str_replace("</form>", $hf, $contact_form);
-	$return='<a class="fancybox" href="#'.$randdiv.'" target="_blank" rel="nofollow"><span class="coupon-button">'.$atts["testo"].'</span></a><div class="fancybox-hidden" style="display: none;"><div id="'.$randdiv.'" class="hentry">'.$contact_form.'</div></div>';
+	$return='<!-- coupon box -->
+<div id="cp-offersdiv">
+<div class="cp-offerstitle">'.$atts["titolo"].'</div>
+<div class="pc-offerdiv" style="background-color:#efefef;">
+<div class="cp-offerstext">'.$atts["testo"].'</div>
+<div class="cp-offerpriceline"><div class="cp-offerpricelineprice">
+<span class="cp-offeroldprice">'.$atts["oldprice"].'</span>&nbsp;<span class="cp-offerprice">'.$atts["offerprice"].'</span>
+</div><div class="cp-offerpricelinebutton">&nbsp;&nbsp;<a class="fancybox" href="#'.$randdiv.'" target="_blank" rel="nofollow"><span class="coupon-button">'.$atts["tasto"].'</span></a><div class="fancybox-hidden" style="display: none;"><div id="'.$randdiv.'" class="hentry">'.$contact_form.'</div></div></div>
+</div>
+</div>
+</div>';
 
-	return $return);
-
+	return $return;
 }
 add_shortcode ("richiedi-coupon","fm_requestcoupon");
 
