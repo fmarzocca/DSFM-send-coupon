@@ -25,7 +25,7 @@ Per l'esecuzione di questo plugin è necessario installare e attivare i seguenti
 Aggiungi questo shortcode:
 
 <pre><code>
-[richiedi-coupon oldprice="100€" offerprice="50€" cf7=4239 filename="coupons/item1.pdf" tasto="Richiedi il Coupon"]
+[richiedi-coupon oldprice="100€" offerprice="50€" cf7=4239 filename="http://www.example.com/wp-content/uploads/couponname.pdf" tasto="Richiedi il Coupon"]
 </code></pre>
 
 parametri accettati:
