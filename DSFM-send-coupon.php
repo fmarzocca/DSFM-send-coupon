@@ -4,7 +4,7 @@
 	Plugin Name: Send Coupon
 	Plugin URI: https://github.com/fmarzocca/DSFM-send-coupon
 	Description: Send coupon file to users
-	Version: 0.7
+	Version: 1.0
 	Author: Fabio Marzocca
 	Author URI: http://www.marzocca.net
 	Text Domain:   DSFM-send-coupon
@@ -89,9 +89,10 @@ function fm_requestcoupon ($atts) {
 			'offerprice'		=>	"0€"
 			
 			 ), $atts);
+
 	$randdiv = rand();
 	$contact_form = do_shortcode("[contact-form-7 id=".$atts['cf7']."]");
-	$hf = '<input type="hidden" name="_FM_coupon" value="' . $atts["filename"]. '" /></form>';
+	$hf = '<input type="hidden" name="_FM_the_title" value="' . get_the_title(). '" /><input type="hidden" name="_FM_coupon" value="' . $atts["filename"]. '" /></form>';
 	$contact_form = str_replace("</form>", $hf, $contact_form);
 	$return='<!-- coupon box -->
 <div id="cp-offersdiv">
@@ -125,36 +126,37 @@ function create_unique_coupon_and_send_it( $cf7 ) {
 		else
 			$nl="\n";
 
-	//set filenames
-		$master_copy = $uploads['basedir']."/".$_POST['_FM_coupon'];		
-		$copy_to_send = $uploads['basedir']."/".$_POST['_FM_coupon']."_attachment.pdf";
-				
-		//make a copy of the master file and attach it
-		if ( copy( $master_copy, $copy_to_send ) ){
-			$submission = WPCF7_Submission::get_instance();
-			$submission->add_uploaded_file('coupon', $copy_to_send);
-		}
-		
 		$submission = WPCF7_Submission::get_instance();
- 
 		if ( $submission ) {
-   			 $posted_data = $submission->get_posted_data();
-   			 $nome = $posted_data["your-name"];
-   			 $cognome = $posted_data["your-surname"];
-   			 $email = $posted_data["your-email"];
-   			 $wpdb->insert(
-   			 	$coupon_table_name,
-   			 	array(
-   			 		'time'		=>	current_time('mysql'),
-   			 		'nome'		=>	$nome,
-   			 		'cognome'	=>	$cognome,
-   			 		'email'		=>	$email,
-   			 		'coupon'	=>	$_POST['_FM_coupon'],
-   			 		)
-   			 	);
+			/* file contents are to be copied locally */
+			$copy_to_send = $uploads['basedir']."/coupon_".rand().".pdf";
+			$content = file_get_contents($_POST['_FM_coupon']);
+			if ( file_put_contents($copy_to_send, $content ) !== false ){
+			//Let'go to the file attachment!
+				$submission->add_uploaded_file('coupon', $copy_to_send);
 			}
 
-	
+		$mail2 = $cf7->prop( 'mail_2' );
+		$body = $mail2['body'];
+		$body = str_replace("[coupon-title]", $_POST['_FM_the_title'],$body);
+		$mail2['body'] = $body; 
+		$cf7->set_properties( array( 'mail_2' => $mail2 ) );
+		
+   		$posted_data = $submission->get_posted_data();
+   	 	$nome = $posted_data["your-name"];
+   		$cognome = $posted_data["your-surname"];
+   		$email = $posted_data["your-email"];
+   		$wpdb->insert(
+   			 $coupon_table_name,
+   			 array(
+   			 	'time'		=>	current_time('mysql'),
+   			 	'nome'		=>	$nome,
+   				'cognome'	=>	$cognome,
+   		 		'email'		=>	$email,
+   		 		'coupon'	=>	 $_POST['_FM_the_title'],
+   		 		)
+   		 	);
+		}
 	}
 }
 

@@ -4,7 +4,7 @@ Contributors: fmarzocca
 Tags: coupon, contact form 7, email, attachment
 Requires at least: 4.0.1
 Tested up to: 4.1
-Stable tag: 0.7
+Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,7 +32,7 @@ parametri accettati:
 
 * `cf7` è l'id del form di Contact Form 7 per richiedere i dati all'utente;
 * `tasto` è il testo da presentare sul bottone. Default = "Stampa il Coupon";
-* `filename` contiene la path relativa e il nome del file da allegare. I file dei coupon sono nel folder wp-contents/uploads
+* `filename` contiene la url assoluta al file da allegare. 
 * `titolo` è il titolo da presentare in testa al riquadro. Default="Scegli l'offerta";
 * `testo` è il testo da visualizzare per l'offerta;
 * `oldprice` vecchio prezzo (barrato);
@@ -45,6 +45,11 @@ Nel contact form, nella sezione MAIL da inviare all'utente, aggiungere il seguen
 <pre><code>
 [coupon]
 </code></pre>
+
+Nella mail all'admin (Mail_2), il titolo del coupon si ottiene inserendo il tag `[coupon-title]` nel corpo del messaggio.
+
+=Log=
+Ogni transazione utente di richiesta coupon viene salvata nella tabella <prefix>-coupon-log, nel database di WP.
 
 == Installation ==
 
@@ -60,6 +65,11 @@ Nel contact form, nella sezione MAIL da inviare all'utente, aggiungere il seguen
 
 
 == Changelog ==
+
+= 1.0 =
+* Modifiche conclusive per produzione. 
+* Introduzione url assoluta del filename 
+* Nella mail all'admin (e nel campo del db) viene inserito il titolo del coupon
 
 = 0.7 =
 * Allo shortcode è ora associato un div completo per l'offerta
